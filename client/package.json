@@ -1,0 +1,36 @@
+{
+  "name": "canasta",
+  "version": "0.0.1",
+  "description": "App para hacer pedidos de la canasta campesina",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --inline --hot --progress --colors --devtool eval-source --content-base src/ --history-api-fallback",
+    "build": "mkdir -p dist  && cp -r src/lib dist && cp src/index.html dist/index.html && webpack --progress --watch --colors"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-import": "^1.2.1",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.2",
+    "style-loader": "^0.18.1",
+    "webpack": "^2.6.0",
+    "webpack-dev-server": "^2.4.5"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "proptypes": "^1.1.0",
+    "react": "^15.6.1",
+    "react-addons-css-transition-group": "^15.6.0",
+    "react-dom": "^15.6.1",
+    "react-md": "^1.0.16",
+    "react-redux": "^5.0.5",
+    "react-router-dom": "^4.1.1",
+    "redux": "^3.7.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
+  }
+}
