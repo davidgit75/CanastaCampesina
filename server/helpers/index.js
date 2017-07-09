@@ -14,7 +14,7 @@ const decodeToken = token => {
   } catch(error) {
     decoded = null
   }
-  return null
+  return decoded
 }
 
 const encrypt = str => crypto.createHash('md5').update(str).digest('hex')

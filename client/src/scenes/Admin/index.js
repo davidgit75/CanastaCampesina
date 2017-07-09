@@ -1,3 +1,3 @@
-import Admin from './Admin'
+import AdminContainer from './AdminContainer'
 
-export default Admin
+export default AdminContainer

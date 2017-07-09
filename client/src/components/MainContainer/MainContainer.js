@@ -8,7 +8,6 @@ class MainContainer extends Component {
   render() {
     return (
       <div>
-        <h3>Main Container</h3>
         <Route exact path='/admin' component={Admin} />
         <Route exact path='/app' component={App} />
         {/*<Route path='/' render={() => (<Redirect to='/app' />)} />*/}

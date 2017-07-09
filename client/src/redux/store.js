@@ -6,7 +6,8 @@ import reducer from './reducers'
 const initStates = {
   products: [],
   orders: [],
-  admin: {}
+  admin: null,
+  loading: true
 }
 
 const middleware = applyMiddleware(thunk, createLogger())
