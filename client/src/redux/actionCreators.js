@@ -1,7 +1,8 @@
 import {
   SET_PRODUCTS,
   SET_ORDERS,
-  SET_ADMIN,
+  SET_USER,
+  SET_ADMINS,
   SET_LOADING
 } from './actions'
 
@@ -15,9 +16,14 @@ export const setOrders = orders => ({
   orders
 })
 
-export const setAdmin = admin => ({
-  type: SET_ADMIN,
-  admin
+export const setUser = user => ({
+  type: SET_USER,
+  user
+})
+
+export const setAdmins = admins => ({
+  type: SET_ADMINS,
+  admins
 })
 
 export const setLoading = loading => ({

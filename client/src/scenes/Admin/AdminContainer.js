@@ -1,12 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Login from '../../components/Login'
-import { checkCredentials } from '../../redux/thunk'
+import { checkCredentials } from '../../api/auth'
 import Loader from '../../components/Loader'
+import { removeToken } from '../../helpers'
+import { setUser as setUserAction } from '../../redux/actionCreators'
+import Admin from './Admin'
 
 class AdminContainer extends Component {
   componentWillMount() {
     this.props.checkCredentials()
+  }
+
+  logout() {
+    removeToken()
+    this.props.setUser(null)
   }
 
   render() {
@@ -17,10 +25,10 @@ class AdminContainer extends Component {
           this.props.loading ?
             <Loader />
           :
-            !this.props.admin ?
+            !this.props.user ?
               <Login />
             :
-              <p>Admin App</p>
+              <Admin logout={() => this.logout()} />
         }
       </div>
     )
@@ -28,12 +36,15 @@ class AdminContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  admin: state.admin,
+  user: state.user,
   loading: state.loading
 })
 
 const mapDispatchToProps = dispatch => ({
-  checkCredentials: () => dispatch(checkCredentials())
+  checkCredentials: () => dispatch(checkCredentials()),
+  setUser(user) {
+    return dispatch(setUserAction(user))
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminContainer)

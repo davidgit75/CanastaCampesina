@@ -17,11 +17,20 @@ const decodeToken = token => {
   return decoded
 }
 
-const encrypt = str => crypto.createHash('md5').update(str).digest('hex')
+const encrypt = str => {
+  // crypto.createHash('md5').update(str).digest('hex')
+  // abc123:  e99a18c428cb38d5f260853678922e03
+  return str
+}
+
+const decrypt = str => {
+  return str
+}
 
 module.exports = {
   encodeToken,
   decodeToken,
   encrypt,
+  decrypt,
   stringEmpty
 }

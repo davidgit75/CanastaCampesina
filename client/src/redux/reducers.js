@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 import {
   SET_PRODUCTS,
   SET_ORDERS,
-  SET_ADMIN,
+  SET_USER,
+  SET_ADMINS,
   SET_LOADING
 } from './actions'
 
@@ -26,11 +27,21 @@ const ordersReducer = (state=[], action) => {
   }
 }
 
-const adminReducer = (state={}, action) => {
-  const { type, admin } = action
+const userReducer = (state={}, action) => {
+  const { type, user } = action
   switch(type) {
-    case SET_ADMIN:
-      return admin
+    case SET_USER:
+      return user
+    default:
+      return state
+  }
+}
+
+const adminsReducer = (state={}, action) => {
+  const { type, admins } = action
+  switch(type) {
+    case SET_ADMINS:
+      return admins
     default:
       return state
   }
@@ -49,6 +60,7 @@ const loadingReducer = (state=null, action) => {
 export default combineReducers({
   products: productsReducer,
   orders: ordersReducer,
-  admin: adminReducer,
+  admins: adminsReducer,
+  user: userReducer,
   loading: loadingReducer
 })

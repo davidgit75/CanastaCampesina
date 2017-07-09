@@ -1,4 +1,5 @@
 export const SET_PRODUCTS = 'SET_PRODUCTS'
-export const SET_ADMIN = 'SET_ADMIN'
+export const SET_USER = 'SET_USER'
+export const SET_ADMINS = 'SET_ADMINS'
 export const SET_ORDERS = 'SET_ORDERS'
 export const SET_LOADING = 'SET_LOADING'

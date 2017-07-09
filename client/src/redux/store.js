@@ -6,7 +6,8 @@ import reducer from './reducers'
 const initStates = {
   products: [],
   orders: [],
-  admin: null,
+  admins: [],
+  user: null,
   loading: true
 }
 

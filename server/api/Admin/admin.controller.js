@@ -12,7 +12,11 @@ const auth = (req, res) => {
       .then(admin => {
         if (admin) {
           const token = encodeToken(req.body)
-          res.status(200).send({ token })
+          const adm = {
+            _id: admin._id,
+            username: admin.username
+          }
+          res.status(200).send({ token, admin: adm })
         } else {
           res.status(400).send('Data is not correct')
         }
@@ -54,7 +58,43 @@ const checkCredentials = (req, res) => {
   }
 }
 
+const getAll = (req, res) => {
+  console.log('getAll', req.headers.authorization)
+  Admin.find()
+    .then(admins => res.status(200).send(admins))
+    .catch(error => res.status(500).send(error))
+}
+
+const add = (req, res) => {
+  if (req.body) {
+    const newAdmin = new Admin(req.body)
+    newAdmin.save(error => {
+      if (error) {
+        res.status(500).send(error)
+      } else {
+        res.status(200).send('new admin saved')
+      }
+    })
+  } else {
+    res.status(400).send('Data is not enought')
+  }
+}
+
+const remove = (req, res) => {
+  console.log('remove admin', req.params)
+  if (req.params.id) {
+    Admin.remove({ _id: req.params.id })
+      .then(data => res.status(200).send('admin removed'))
+      .catch(error => res.status(500).send(error))
+  } else {
+    res.status(400).send('Data is not enought')
+  }
+}
+
 module.exports = {
   auth,
-  checkCredentials
+  checkCredentials,
+  getAll,
+  add,
+  remove
 }
