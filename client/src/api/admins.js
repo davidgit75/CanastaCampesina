@@ -30,3 +30,7 @@ export const addAdmin = (credentials, callback) => {
 export const removeAdmin = _id => {
   return axios.delete(`${ADMIN_BASE}/${_id}`)
 }
+
+export const editAdmin = credentials => {
+  return axios.put(ADMIN_BASE, credentials)
+}

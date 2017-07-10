@@ -3,42 +3,34 @@ import Dialog from 'react-md/lib/Dialogs'
 import Button from 'react-md/lib/Buttons/Button'
 import TextField from 'react-md/lib/TextFields'
 
-class NewAdmin extends Component {
+class ModalActionAdmin extends Component {
   constructor() {
     super()
-    this.state = {
-      username: '',
-      password: ''
-    }
   }
 
   disableAddButton() {
-    return this.state.username.length <= 0 || this.state.password.length <= 0
+    return this.props.data.username.length <= 0 || this.props.data.password.length <= 0
   }
 
   render() {
     return (
       <Dialog
-        id="modalNewAdmin"
+        id="modalModalActionAdmin"
         visible={this.props.visible}
-        title="Agregar nuevo administrador"
+        title={this.props.title}
         aria-labelledby="modalNewAdminDescription"
         modal
         actions={[{
           onClick: () => {
             if (!this.disableAddButton()) {
-              this.props.addAdmin(this.state, () => {
-                this.setState({ username: '', password: '' })
-              })
+              if (this.props.type === 'add') this.props.addAdmin()
+              if (this.props.type === 'edit') this.props.editAdmin()
             }
           },
           primary: true,
-          label: 'Agregar',
+          label: this.props.type === 'add' ? 'Agregar administrador(a)': 'Editar administrador(a)',
         }, {
-          onClick: () => {
-            this.setState({ username: '', password: '' })
-            this.props.rejectAction()
-          },
+          onClick: () => this.props.rejectAction(),
           primary: true,
           label: 'Cancelar',
         }]}
@@ -50,8 +42,12 @@ class NewAdmin extends Component {
               id="floatingNewAdmin"
               label="Administrador(a)"
               className="md-cell md-cell--12 md-cell--bottom"
-              value={this.state.username}
-              onChange={v => this.setState({ username: v })}
+              value={this.props.data.username}
+              onChange={v => {
+                const cData = this.props.data
+                cData['username'] = v
+                this.props.setData(cData)
+              }}
             />
           </div>
 
@@ -61,8 +57,12 @@ class NewAdmin extends Component {
               id="floatingNewAdminPass"
               label="Contraseña"
               className="md-cell md-cell--12 md-cell--bottom"
-              value={this.state.password}
-              onChange={v => this.setState({ password: v })}
+              value={this.props.data.password}
+              onChange={v => {
+                const cData = this.props.data
+                cData['password'] = v
+                this.props.setData(cData)
+              }}
             />
           </div>
         </div>
@@ -71,4 +71,4 @@ class NewAdmin extends Component {
   }
 }
 
-export default NewAdmin
+export default ModalActionAdmin

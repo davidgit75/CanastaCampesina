@@ -1,32 +1,47 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getAdmins, addAdmin, removeAdmin } from '../../api/admins'
+import { getAdmins, addAdmin, removeAdmin, editAdmin } from '../../api/admins'
 import TableAdmins from './TableAdmins'
+import ModalActionAdmin from '../ModalActionAdmin'
+import ModalConfirmation from '../ModalConfirmation'
 
 class TableAdminsContainer extends Component {
   constructor() {
     super()
     this.state = {
-      showModal: false
+      showModal: false,
+      showCofirmation: false,
+      editedAdmin: {
+        _id: '',
+        username: '',
+        password: ''
+      },
+      typeModal: ''
     }
   }
 
   removeAdmin(id) {
-    console.log('remove', id)
     removeAdmin(id)
       .then(data => this.props.getAllAdmins())
       .catch(error => console.log(`Error deleting admin ${error}`))
   }
 
-  editAdmin(id) {
-    console.log('edit', id)
+  openModalToEdit(admin) {
+    this.setState({ editedAdmin: admin, typeModal: 'edit' })
   }
 
-  addAdmin(credentials, callback) {
-    console.log('addAdmin', credentials, callback)
-    this.props.addNewAdmin(credentials, () => {
-      callback()
-      this.setState({ showModal: false })
+  editAdmin() {
+    editAdmin(this.state.editedAdmin)
+      .then(data => {
+        this.setState({ showModal: false, editedAdmin: { username: '', password: '' } })
+        this.props.getAllAdmins()
+      })
+      .catch(error => console.log(`Error updating admin: ${error}`))
+  }
+
+  addAdmin() {
+    this.props.addNewAdmin(this.state.editedAdmin, () => {
+      this.setState({ showModal: false, editedAdmin: { username: '', password: '' } })
       this.props.getAllAdmins()
     })
   }
@@ -37,14 +52,42 @@ class TableAdminsContainer extends Component {
 
   render() {
     return (
-      <TableAdmins
-        admins={this.props.admins}
-        editAdmin={id => this.editAdmin(id)}
-        removeAdmin={id => this.removeAdmin(id)}
-        addAdmin={(credentials, callback) => this.addAdmin(credentials, callback)}
-        showModal={this.state.showModal}
-        setModalVisibility={v => this.setState({ showModal: v })}
-      />
+      <div>
+        <TableAdmins
+          admins={this.props.admins}
+          removeAdmin={id => this.removeAdmin(id)}
+          showModal={this.state.showModal}
+          setModalVisibility={v => this.setState({ showModal: v })}
+          editedAdmin={this.state.editedAdmin}
+          openModalToEdit={a => this.openModalToEdit(a)}
+          setEditedAdmin={d => this.setState({ editedAdmin: d })}
+          typeModal={this.state.typeModal}
+          setTypeModal={v => this.setState({ typeModal: v })}
+        />
+
+        <ModalActionAdmin
+          title='Agregar adminsitrador(a)'
+          type={this.state.typeModal}
+          data={this.state.editedAdmin}
+          setData={d => this.setState({ editedAdmin: d })}
+          visible={this.state.showModal}
+          addAdmin={callback => this.addAdmin(callback)}
+          editAdmin={() => this.setState({ showCofirmation: true, showModal: false })}
+          rejectAction={() => {
+            this.setState({ showModal: false, editedAdmin: { username: '', password: '' } })
+          }}
+        />
+
+        <ModalConfirmation
+          visible={this.state.showCofirmation}
+          title={this.state.typeModal === 'edit' ? '¿Desea editar el administrador(a)?' : '¿Desea eliminar el administrador(a)?'}
+          action={() => {
+            this.editAdmin()
+            this.setState({ showCofirmation: false, showModal: false })
+          }}
+          close={() => this.setState({ showCofirmation: false, showModal: false, editedAdmin: { username: '', password: '' } })}
+        />
+      </div>
     )
   }
 }

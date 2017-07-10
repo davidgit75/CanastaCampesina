@@ -81,10 +81,20 @@ const add = (req, res) => {
 }
 
 const remove = (req, res) => {
-  console.log('remove admin', req.params)
   if (req.params.id) {
     Admin.remove({ _id: req.params.id })
       .then(data => res.status(200).send('admin removed'))
+      .catch(error => res.status(500).send(error))
+  } else {
+    res.status(400).send('Data is not enought')
+  }
+}
+
+const edit = (req, res) => {
+  console.log('edit admin', req.body)
+  if (req.body._id) {
+    Admin.update({ _id: req.body._id }, { $set: { username: req.body.username, password: req.body.password } })
+      .then(data => res.status(200).send('admin updated'))
       .catch(error => res.status(500).send(error))
   } else {
     res.status(400).send('Data is not enought')
@@ -96,5 +106,6 @@ module.exports = {
   checkCredentials,
   getAll,
   add,
-  remove
+  remove,
+  edit
 }

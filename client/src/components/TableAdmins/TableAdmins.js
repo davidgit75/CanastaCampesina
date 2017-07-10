@@ -6,8 +6,7 @@ import TableBody from 'react-md/lib/DataTables/TableBody'
 import TableRow from 'react-md/lib/DataTables/TableRow'
 import TableColumn from 'react-md/lib/DataTables/TableColumn'
 import Button from 'react-md/lib/Buttons/Button'
-
-import NewAdmin from '../NewAdmin'
+import TextField from 'react-md/lib/TextFields'
 
 const styles={
   container: {
@@ -28,7 +27,16 @@ const TableAdmins = (props) => {
               <TableColumn>Nombre</TableColumn>
               <TableColumn>Contraseña</TableColumn>
               <TableColumn>
-                <Button style={{ fontSize: 20 }} icon onClick={() => props.setModalVisibility(true)}>person_add</Button>
+                <Button
+                  style={{ fontSize: 20 }}
+                  icon
+                  onClick={() => {
+                    props.setTypeModal('add')
+                    props.setModalVisibility(true)
+                  }}
+                >
+                    person_add
+                  </Button>
               </TableColumn>
             </TableRow>
           </TableHeader>
@@ -40,7 +48,16 @@ const TableAdmins = (props) => {
                   <TableColumn style={{ paddingTop: 30 }}>{a.username}</TableColumn>
                   <TableColumn style={{ paddingTop: 30 }}>{a.password}</TableColumn>
                   <TableColumn>
-                    <Button icon onClick={() => props.editAdmin(a._id)}>edit</Button>
+                    <Button
+                      icon
+                      onClick={() => {
+                        props.setTypeModal('edit')
+                        props.setModalVisibility(true)
+                        props.openModalToEdit({ _id: a._id, username: a.username, password: a.password })
+                      }}
+                    >
+                      edit
+                    </Button>
                     <Button icon onClick={() => props.removeAdmin(a._id)}>delete</Button>
                   </TableColumn>
                 </TableRow>
@@ -51,12 +68,6 @@ const TableAdmins = (props) => {
       </Card>
 
       <div className='md-cell md-cell--3'></div>
-
-      <NewAdmin
-        visible={props.showModal}
-        addAdmin={(credentials, callback) => props.addAdmin(credentials, callback)}
-        rejectAction={() => props.setModalVisibility(false)}
-      />
     </div>
   )
 }
