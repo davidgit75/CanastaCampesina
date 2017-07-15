@@ -1,14 +1,14 @@
 import {
-  SET_PRODUCTS,
+  SET_SALERS,
   SET_ORDERS,
   SET_USER,
   SET_ADMINS,
   SET_LOADING
 } from './actions'
 
-export const setProducts = products => ({
-  type: SET_PRODUCTS,
-  products
+export const setSalers = salers => ({
+  type: SET_SALERS,
+  salers
 })
 
 export const setOrders = orders => ({

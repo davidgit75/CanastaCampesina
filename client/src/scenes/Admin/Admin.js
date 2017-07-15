@@ -7,6 +7,7 @@ import TabsContainer from 'react-md/lib/Tabs/TabsContainer'
 import Button from 'react-md/lib/Buttons'
 
 import TableAdmins from '../../components/TableAdmins'
+import SalersList from '../../components/SalersList'
 
 const styles = {
   container: {
@@ -29,7 +30,7 @@ const Admin = (props) => {
     >
       <Tabs tabId="tab" centered>
         <Tab label="Productores">
-          <h3 className="md-cell md-cell--12">Hello, World!</h3>
+          <SalersList />
         </Tab>
         <Tab label="Administradores">
           <TableAdmins />

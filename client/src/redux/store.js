@@ -4,7 +4,7 @@ import thunk from 'redux-thunk'
 import reducer from './reducers'
 
 const initStates = {
-  products: [],
+  salers: [],
   orders: [],
   admins: [],
   user: null,
