@@ -55,7 +55,7 @@ class TableAdminsContainer extends Component {
       <div>
         <TableAdmins
           admins={this.props.admins}
-          removeAdmin={id => this.removeAdmin(id)}
+          removeAdmin={admin => this.setState({ editedAdmin: admin, showCofirmation: true, showModal: false, typeModal: 'delete' })}
           showModal={this.state.showModal}
           setModalVisibility={v => this.setState({ showModal: v })}
           editedAdmin={this.state.editedAdmin}
@@ -82,8 +82,19 @@ class TableAdminsContainer extends Component {
           visible={this.state.showCofirmation}
           title={this.state.typeModal === 'edit' ? '¿Desea editar el administrador(a)?' : '¿Desea eliminar el administrador(a)?'}
           action={() => {
-            this.editAdmin()
-            this.setState({ showCofirmation: false, showModal: false })
+            const statesToChange = { showCofirmation: false, showModal: false, typeModal: '' }
+            if (this.state.typeModal === 'edit') {
+              this.editAdmin()
+            } else if(this.state.typeModal === 'delete') {
+              console.log('CONFIRMATION DELETE', this.state.editedAdmin)
+              this.removeAdmin(this.state.editedAdmin._id)
+              statesToChange.editedAdmin = {
+                _id: '',
+                username: '',
+                password: ''
+              }
+            }
+            this.setState(statesToChange)
           }}
           close={() => this.setState({ showCofirmation: false, showModal: false, editedAdmin: { username: '', password: '' } })}
         />

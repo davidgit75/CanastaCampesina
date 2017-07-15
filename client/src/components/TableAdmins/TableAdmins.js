@@ -58,7 +58,9 @@ const TableAdmins = (props) => {
                     >
                       edit
                     </Button>
-                    <Button icon onClick={() => props.removeAdmin(a._id)}>delete</Button>
+                    <Button icon onClick={() => props.removeAdmin(a)}>
+                      delete
+                    </Button>
                   </TableColumn>
                 </TableRow>
               ))

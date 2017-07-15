@@ -66,7 +66,9 @@ const getAll = (req, res) => {
 }
 
 const add = (req, res) => {
+  console.log('add admin', req.body)
   if (req.body) {
+    delete req.body._id
     const newAdmin = new Admin(req.body)
     newAdmin.save(error => {
       if (error) {
