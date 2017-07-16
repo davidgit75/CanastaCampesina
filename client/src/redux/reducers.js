@@ -11,7 +11,7 @@ const salersReducer = (state=[], action) => {
   const { type, salers } = action
   switch(type) {
     case SET_SALERS:
-      return saler
+      return salers
     default:
       return state
   }

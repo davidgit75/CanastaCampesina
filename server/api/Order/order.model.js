@@ -6,7 +6,8 @@ const schema = mongoose.Schema(
     products: [
       product: { type: mongoose.Schema.Types.ObjectId, required: true },
       quantity: { type: Number, required: true },
-    ]
+    ],
+    finished: { type: Boolean, default: false }
   },
   { versionKey: false }
 )
