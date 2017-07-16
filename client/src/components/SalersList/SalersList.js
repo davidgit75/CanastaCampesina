@@ -36,8 +36,7 @@ class SalersList extends Component {
         price: '',
         quantity: ''
       },
-      ownerProduct: '',
-      salersSelect: []
+      ownerProduct: ''
     }
   }
 
@@ -129,6 +128,7 @@ class SalersList extends Component {
                     itemValue="value"
                     className="md-cell md-cell--6"
                     helpOnFocus
+                    value={this.state.ownerProduct}
                     onChange={(owner) => this.setState({ ownerProduct: owner })}
                   />
 
@@ -136,6 +136,7 @@ class SalersList extends Component {
                     id="floatingProducts"
                     label="Nombre del producto"
                     className="md-cell md-cell--6"
+                    value={this.state.newProduct.name}
                     onChange={value => this.setProduct('name', value)}
                   />
 
@@ -143,6 +144,7 @@ class SalersList extends Component {
                     id="floatingUnitBase"
                     label="Unidad"
                     className="md-cell md-cell--4"
+                    value={this.state.newProduct.unitBase}
                     onChange={value => this.setProduct('unitBase', value)}
                   />
 
@@ -150,6 +152,7 @@ class SalersList extends Component {
                     id="floatingPrice"
                     label="Precio"
                     className="md-cell md-cell--4"
+                    value={this.state.newProduct.price}
                     onChange={value => this.setProduct('price', value)}
                   />
 
@@ -157,6 +160,7 @@ class SalersList extends Component {
                     id="floatingQuantity"
                     label="Cantidad"
                     className="md-cell md-cell--4"
+                    value={this.state.newProduct.quantity}
                     onChange={value => this.setProduct('quantity', value)}
                   />
 
@@ -167,7 +171,18 @@ class SalersList extends Component {
                     label="Agregar nuevo producto"
                     disabled={(Object.keys(this.state.newProduct).filter(info => this.state.newProduct[info].length > 0).length < 4) || this.state.ownerProduct.length === 0}
                     onClick={() => {
-                      this.props.addProduct(this.state.ownerProduct, this.state.newProduct, () => this.props.getSalers())
+                      this.props.addProduct(this.state.ownerProduct, this.state.newProduct, () => {
+                        this.setState({
+                          newProduct: {
+                            name: '',
+                            unitBase: '',
+                            price: '',
+                            quantity: ''
+                          },
+                          ownerProduct: ''
+                        })
+                        this.props.getSalers()
+                      })
                     }}
                   />
                 </CardText>
