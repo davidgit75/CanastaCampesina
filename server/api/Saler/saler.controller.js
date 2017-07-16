@@ -21,7 +21,28 @@ const addSaler = (req, res) => {
 const addProduct = (req, res) => {
   console.log('addProduct')
   console.log(req.body)
-  res.status(200).send([])
+  if (req.body.saler && req.body.product) {
+    Saler.update(
+      { _id: req.body.saler },
+      {
+        $push: {
+          'products': {
+            name: req.body.product.name,
+            unitBase: req.body.product.unitBase,
+            price: req.body.product.price,
+            quantity: req.body.product.quantity
+          }
+        }
+      }
+    )
+    .then(salers => {
+      console.log('SALER UPDATED', salers)
+      res.status(200).send(salers)
+    })
+    .catch(error => res.status(500).send(error))
+  } else {
+    res.status(401).send('Information is not enought')
+  }
 }
 
 module.exports = {

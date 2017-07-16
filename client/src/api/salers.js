@@ -12,16 +12,16 @@ export const getSalers = () => {
 
 export const addSaler = (name, callback) => {
   return (dispatch) => {
-    // dispatch(setLoading(true))
     axios.post(SALERS, { name })
-      .then(data => {
-        dispatch(setLoading(false))
-        callback()
-      })
+      .then(data => callback())
       .catch(error => console.log(error))
   }
 }
 
-export const addProduct = () => {
-  return null
+export const addProduct = (saler, product, callback) => {
+  return (dispatch) => {
+    axios.post(`${SALERS}/product`, { saler, product })
+      .then(data => callback())
+      .catch(error => console.log(error))
+  }
 }

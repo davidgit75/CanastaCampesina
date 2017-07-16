@@ -17,7 +17,8 @@ import SelectField from 'react-md/lib/SelectFields'
 import axios from 'axios'
 import {
   getSalers as getSalersAction,
-  addSaler as addSalerAction
+  addSaler as addSalerAction,
+  addProduct as addProductAction
 } from '../../api/salers'
 
 import Saler from './Saler'
@@ -165,7 +166,9 @@ class SalersList extends Component {
                     primary
                     label="Agregar nuevo producto"
                     disabled={(Object.keys(this.state.newProduct).filter(info => this.state.newProduct[info].length > 0).length < 4) || this.state.ownerProduct.length === 0}
-                    onClick={() => this.addNewSaler()}
+                    onClick={() => {
+                      this.props.addProduct(this.state.ownerProduct, this.state.newProduct, () => this.props.getSalers())
+                    }}
                   />
                 </CardText>
 
@@ -202,7 +205,10 @@ const mapDispatchToProps = dispatch => ({
   },
   getSalers() {
     return dispatch(getSalersAction())
-  }
+  },
+  addProduct(saler, product, callback) {
+    return dispatch(addProductAction(saler, product, callback))
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SalersList)

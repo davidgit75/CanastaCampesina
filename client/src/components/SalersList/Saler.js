@@ -64,6 +64,13 @@ const SalerList = (props) => {
     <div className='md-grid'>
       <ul>
         <li>{saler.name}</li>
+          <ul style={{ marginLeft: 10 }}>
+            {
+              saler.products.map((product, subIndex) => (
+                <li key={subIndex}>{product.name}</li>
+              ))
+            }
+          </ul>
       </ul>
     </div>
   )
