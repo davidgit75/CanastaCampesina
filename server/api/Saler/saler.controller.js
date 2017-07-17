@@ -45,8 +45,19 @@ const addProduct = (req, res) => {
   }
 }
 
+const removeSaler = () => {
+  if (req.body) {
+    Saler.delete({ _id: req.body._id })
+      .then(data => res.status(200).send('Saler removed successfully'))
+      .catch(error => res.status(500).send(error))
+  } else {
+    res.status(401).send('Info is not enought')
+  }
+}
+
 module.exports = {
   getAll,
   addSaler,
-  addProduct
+  addProduct,
+  removeSaler
 }

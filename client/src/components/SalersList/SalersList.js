@@ -11,17 +11,25 @@ import TableRow from 'react-md/lib/DataTables/TableRow'
 import TableColumn from 'react-md/lib/DataTables/TableColumn'
 import Button from 'react-md/lib/Buttons'
 import TextField from 'react-md/lib/TextFields'
-import Checkbox from 'react-md/lib/SelectionControls/Checkbox'
 import Collapse from 'react-md/lib/Helpers/Collapse'
 import SelectField from 'react-md/lib/SelectFields'
+import List from 'react-md/lib/Lists/List'
+import ListItem from 'react-md/lib/Lists/ListItem'
+import Avatar from 'react-md/lib/Avatars'
+import FontIcon from 'react-md/lib/FontIcons'
+import Divider from 'react-md/lib/Dividers'
+import Subheader from 'react-md/lib/Subheaders'
+
 import axios from 'axios'
 import {
   getSalers as getSalersAction,
   addSaler as addSalerAction,
-  addProduct as addProductAction
+  addProduct as addProductAction,
+  removeSaler
 } from '../../api/salers'
 
 import Saler from './Saler'
+import './styles.css'
 
 class SalersList extends Component {
   constructor() {
@@ -55,6 +63,16 @@ class SalersList extends Component {
            this.state.newProduct.unitBase.length > 0 &&
            this.state.newProduct.price.lenght > 0 &&
            this.state.newProduct.quantity.length > 0
+  }
+
+  editSaler(saler) {
+    console.log('editSaler', saler)
+  }
+
+  removeSaler(_id) {
+    removeSaler(_id)
+      .then(data => this.props.getSalers())
+      .catch(error => console.log(error))
   }
 
   render() {
@@ -193,18 +211,21 @@ class SalersList extends Component {
           </div>
         </div>
 
-        <div>
-          {
-            this.props.salers.map((saler, index) => (
-              <Saler key={index} saler={saler} />
-            ))
-          }
-          {
-            this.props.salers.length === 0
-            ?  <h2>No hay productores</h2>
-            : null
-          }
+        <div className='container-salers'>
+          <div className="md-grid">
+            {
+              this.props.salers.map((saler, index) => (
+                <Saler key={index} saler={saler} editSaler={() => this.editSaler(saler)} removeSaler={() => this.removeSaler(saler._id)} />
+              ))
+            }
+            {
+              this.props.salers.length === 0
+              ?  <h2>No hay productores</h2>
+              : null
+            }
+          </div>
         </div>
+
       </div>
     )
   }

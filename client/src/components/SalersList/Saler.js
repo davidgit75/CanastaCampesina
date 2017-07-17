@@ -1,4 +1,27 @@
 import React from 'react'
+import List from 'react-md/lib/Lists/List'
+import ListItem from 'react-md/lib/Lists/ListItem'
+import Avatar from 'react-md/lib/Avatars'
+import FontIcon from 'react-md/lib/FontIcons'
+import Divider from 'react-md/lib/Dividers'
+import Subheader from 'react-md/lib/Subheaders'
+import MenuButton from 'react-md/lib/Menus/MenuButton'
+
+const InfoIcon = (props) => {
+  const { editSaler, removeSaler } = props
+  return (
+    <MenuButton
+      id="vert-menu"
+      icon
+      buttonChildren="more_vert"
+      className="menu-example"
+      tooltipLabel="Open some menu"
+    >
+      <ListItem onClick={() => editSaler()} primaryText="Editar" />
+      <ListItem onClick={() => removeSaler()} primaryText="Eliminar" />
+    </MenuButton>
+  )
+}
 
 const SalerList = (props) => {
   /* return (
@@ -58,21 +81,18 @@ const SalerList = (props) => {
     </div>
   ) */
 
-  const { saler } = props
+  const { saler, editSaler, removeSaler } = props
 
   return (
-    <div className='md-grid'>
-      <ul>
-        <li>{saler.name}</li>
-          <ul style={{ marginLeft: 10 }}>
-            {
-              saler.products.map((product, subIndex) => (
-                <li key={subIndex}>{product.name}</li>
-              ))
-            }
-          </ul>
-      </ul>
-    </div>
+    <List className="md-cell md-cell--middle md-cell--6 md-paper md-paper--1">
+      {/* <Subheader primaryText="Productor" /> */}
+      <ListItem
+        leftAvatar={<Avatar suffix="blue" icon={<FontIcon>person_pin</FontIcon>} />}
+        rightIcon={<InfoIcon editSaler={() => editSaler(saler)} removeSaler={() => removeSaler(saler._id)} />}
+        primaryText={saler.name}
+        secondaryText={saler.products.length ? saler.products[0].name : 'Sin productos aún'}
+      />
+    </List>
   )
 }
 

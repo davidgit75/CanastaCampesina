@@ -25,3 +25,7 @@ export const addProduct = (saler, product, callback) => {
       .catch(error => console.log(error))
   }
 }
+
+export const removeSaler = _id => {
+  return axios.delete(SALERS, { _id })
+}
