@@ -12,7 +12,7 @@ export const getSalers = () => {
 
 export const addSaler = (name, callback) => {
   return (dispatch) => {
-    axios.post(SALERS, { name })
+    axios.post(`${SALERS}/add`, { name })
       .then(data => callback())
       .catch(error => console.log(error))
   }
@@ -27,5 +27,10 @@ export const addProduct = (saler, product, callback) => {
 }
 
 export const removeSaler = _id => {
-  return axios.delete(SALERS, { _id })
+  return axios.delete(`${SALERS}/${ _id}`, )
+}
+
+export const editSaler = (saler) => {
+  const s = saler
+  return axios.post(`${SALERS}/edit`, saler)
 }

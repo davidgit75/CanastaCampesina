@@ -2,17 +2,13 @@ const Admin = require('../../api/Admin/admin.model')
 const { stringEmpty, encrypt, decodeToken } = require('../../helpers')
 
 const midAuthAdmin = (req, res, next) => {
-  let { username, password } = req.body
-  const token = req.header.authorization
-  console.log('token', token)
-  password = encrypt(password)
-  if (stringEmpty(username) || stringEmpty(password)) {
-    res.status(401).send('Admin information is not enought')
-  } else {
+  if (req.headers.authorization) {
+    const token = req.headers.authorization.split(' ')[1]
     if (token) {
       const credentials = decodeToken(token)
       delete credentials.iat
       delete credentials.exp
+      credentials.password = encrypt(credentials.password)
       Admin.findOne(credentials)
         .then(admin => {
           if (admin) next()
@@ -22,6 +18,8 @@ const midAuthAdmin = (req, res, next) => {
     } else {
       res.status(401).send('Token does not exist')
     }
+  } else {
+    res.status(401).send('Token is not correct')
   }
 }
 

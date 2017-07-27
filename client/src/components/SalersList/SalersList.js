@@ -21,11 +21,13 @@ import Divider from 'react-md/lib/Dividers'
 import Subheader from 'react-md/lib/Subheaders'
 
 import axios from 'axios'
+import ModalConfirmation from '../ModalConfirmation'
 import {
   getSalers as getSalersAction,
   addSaler as addSalerAction,
   addProduct as addProductAction,
-  removeSaler
+  removeSaler, 
+  editSaler
 } from '../../api/salers'
 
 import Saler from './Saler'
@@ -44,7 +46,9 @@ class SalersList extends Component {
         price: '',
         quantity: ''
       },
-      ownerProduct: ''
+      ownerProduct: '',
+      showModalConfirmation: false,
+      idToRemove: ''
     }
   }
 
@@ -65,19 +69,33 @@ class SalersList extends Component {
            this.state.newProduct.quantity.length > 0
   }
 
-  editSaler(saler) {
-    console.log('editSaler', saler)
+  async editSaler(saler) {
+    const edition = await editSaler(saler);
+    if (edition.status === 200) {
+      this.props.getSalers();
+    } else {
+      console.log(edition.data);
+    }
   }
 
-  removeSaler(_id) {
-    removeSaler(_id)
-      .then(data => this.props.getSalers())
-      .catch(error => console.log(error))
+  async removeSaler(_id) {
+    const remotion = await removeSaler(_id)
+    console.log('remotion', remotion);
+    if (remotion.status === 200) {
+      this.setState({ idToRemove: '', showModalConfirmation: false })
+      this.props.getSalers();
+    } else {
+      console.log(remotion.data)
+    }
+  }
+  
+  openModalConfirmation(id) {
+    this.setState({ showModalConfirmation: true, idToRemove: id })
   }
 
   render() {
     return (
-      <div style={{ minHeight: 700 }}>
+      <div style={{ minHeight: 800 }}>
 
         {/* CARD WITH FORM TO ADD NEW SALER */}
         <div className='md-grid'>
@@ -215,7 +233,7 @@ class SalersList extends Component {
           <div className="md-grid">
             {
               this.props.salers.map((saler, index) => (
-                <Saler key={index} saler={saler} editSaler={() => this.editSaler(saler)} removeSaler={() => this.removeSaler(saler._id)} />
+                <Saler key={index} saler={saler} editSaler={() => this.editSaler(saler)} removeSaler={() => this.openModalConfirmation(saler._id)} />
               ))
             }
             {
@@ -225,6 +243,13 @@ class SalersList extends Component {
             }
           </div>
         </div>
+
+        <ModalConfirmation
+          visible={this.state.showModalConfirmation}
+          title={'¿Segur@ que desea eliminar el productor?'}
+          action={() => this.removeSaler(this.state.idToRemove)}
+          close={() => this.setState({ showModalConfirmation: false })}
+        />
 
       </div>
     )

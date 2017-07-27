@@ -59,7 +59,6 @@ const checkCredentials = (req, res) => {
 }
 
 const getAll = (req, res) => {
-  console.log('getAll', req.headers.authorization)
   Admin.find()
     .then(admins => res.status(200).send(admins))
     .catch(error => res.status(500).send(error))

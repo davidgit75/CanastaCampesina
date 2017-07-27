@@ -45,10 +45,22 @@ const addProduct = (req, res) => {
   }
 }
 
-const removeSaler = () => {
-  if (req.body) {
-    Saler.delete({ _id: req.body._id })
+const removeSaler = (req, res) => {
+  console.log('remove saler', req.params);
+  if (req.params) {
+    Saler.remove({ _id: req.params.id })
       .then(data => res.status(200).send('Saler removed successfully'))
+      .catch(error => res.status(500).send(error))
+  } else {
+    res.status(401).send('Info is not enought')
+  }
+}
+
+const editSaler = (req, res) => {
+  if (req.body) {
+    console.log('edit saler', req.body);
+    Saler.update({ _id: req.body._id }, req.body)
+      .then(data => res.status(200).send('Saler edited successfully'))
       .catch(error => res.status(500).send(error))
   } else {
     res.status(401).send('Info is not enought')
@@ -59,5 +71,6 @@ module.exports = {
   getAll,
   addSaler,
   addProduct,
-  removeSaler
+  removeSaler,
+  editSaler
 }

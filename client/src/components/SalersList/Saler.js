@@ -15,7 +15,6 @@ const InfoIcon = (props) => {
       icon
       buttonChildren="more_vert"
       className="menu-example"
-      tooltipLabel="Open some menu"
     >
       <ListItem onClick={() => editSaler()} primaryText="Editar" />
       <ListItem onClick={() => removeSaler()} primaryText="Eliminar" />
@@ -87,10 +86,10 @@ const SalerList = (props) => {
     <List className="md-cell md-cell--middle md-cell--6 md-paper md-paper--1">
       {/* <Subheader primaryText="Productor" /> */}
       <ListItem
-        leftAvatar={<Avatar suffix="blue" icon={<FontIcon>person_pin</FontIcon>} />}
+        leftAvatar={<Avatar suffix={saler.products.length ? 'blue' : 'red'} icon={<FontIcon>person_pin</FontIcon>} />}
         rightIcon={<InfoIcon editSaler={() => editSaler(saler)} removeSaler={() => removeSaler(saler._id)} />}
         primaryText={saler.name}
-        secondaryText={saler.products.length ? saler.products[0].name : 'Sin productos aún'}
+        secondaryText={saler.products.length ? `Muestra: ${saler.products[0].name}` : 'Sin productos aún'}
       />
     </List>
   )
