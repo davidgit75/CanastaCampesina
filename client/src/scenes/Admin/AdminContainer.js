@@ -27,6 +27,7 @@ class AdminContainer extends Component {
       setToken(response.data.token)
       this.props.setUser(response.data.admin)
       this.props.setLoading(false)
+      this.setState({ username: '', password: '', error: false })
     } catch (error) {
       this.setState({ error: true })
     }
