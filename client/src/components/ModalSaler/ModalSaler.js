@@ -16,6 +16,38 @@ class ModalSaler extends Component {
     this.setState({ saler: nextProps.saler })
   }
 
+  removeProduct(index) {
+    if (this.props.type === 'edit') {
+      let products = [...this.state.saler.products]
+      products.splice(index, 1)
+      const saler = {...this.state.saler}
+      saler.products = products
+      this.setState({ saler })
+    }
+  }
+
+  getActions() {
+    const actions = []
+    if (this.props.type === 'edit') {
+      actions.push({
+        onClick: () => {
+          if (this.props.type === 'edit') {
+            this.props.action(this.state.saler)
+            this.props.reject()
+          }
+        },
+        primary: true,
+        label: 'Editar productor(a)',
+      })
+    }
+    actions.push({
+      onClick: () => this.props.reject(),
+      primary: true,
+      label: 'Cancelar',
+    })
+    return actions
+  }
+
   render() {
     return (
       <Dialog
@@ -24,20 +56,7 @@ class ModalSaler extends Component {
         title={this.props.title}
         aria-labelledby="modalNewAdminDescription"
         modal
-        actions={[{
-          onClick: () => {
-            if (this.props.type === 'edit') {
-              this.props.action(this.state.saler)
-              this.props.reject()
-            }
-          },
-          primary: true,
-          label: this.props.type === 'show' ? 'Sin acción definida': 'Editar productor(a)',
-        }, {
-          onClick: () => this.props.reject(),
-          primary: true,
-          label: 'Cancelar',
-        }]}
+        actions={this.getActions()}
       >
         <div className='md-grid'>
           <div className='md-cell md-cell--12'>
@@ -60,7 +79,7 @@ class ModalSaler extends Component {
             {
               this.state.saler && this.state.saler.products && this.state.saler.products.length ?
                 this.state.saler.products.map((product, i) => (
-                  <Chip key={i} label={product.name} />
+                  <Chip key={i} label={product.name} onClick={() => this.removeProduct(i)} removable={this.props.type === 'edit'} />
                 ))
               : null
             }
