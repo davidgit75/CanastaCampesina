@@ -31,6 +31,5 @@ export const removeSaler = _id => {
 }
 
 export const editSaler = (saler) => {
-  const s = saler
   return axios.post(`${SALERS}/edit`, saler)
 }

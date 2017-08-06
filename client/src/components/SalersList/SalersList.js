@@ -22,6 +22,7 @@ import Subheader from 'react-md/lib/Subheaders'
 
 import axios from 'axios'
 import ModalConfirmation from '../ModalConfirmation'
+import ModalSaler from '../ModalSaler'
 import {
   getSalers as getSalersAction,
   addSaler as addSalerAction,
@@ -48,7 +49,13 @@ class SalersList extends Component {
       },
       ownerProduct: '',
       showModalConfirmation: false,
-      idToRemove: ''
+      idToRemove: '',
+      showModalSaler: false,
+      salerFocus: {
+        title: '',
+        type: 'edit',
+        saler: null
+      }
     }
   }
 
@@ -70,12 +77,17 @@ class SalersList extends Component {
   }
 
   async editSaler(saler) {
-    const edition = await editSaler(saler);
-    if (edition.status === 200) {
-      this.props.getSalers();
-    } else {
-      console.log(edition.data);
+    try {
+      const response = await editSaler(saler)
+      console.log('response editSaler', response)
+      this.props.getSalers()
+    } catch (error) {
+      console.log('error editing saler', error)
     }
+  }
+
+  openModalToEdit() {
+    this.setState({  })
   }
 
   async removeSaler(_id) {
@@ -232,9 +244,29 @@ class SalersList extends Component {
         <div className='container-salers'>
           <div className="md-grid">
             {
-              this.props.salers.map((saler, index) => (
-                <Saler key={index} saler={saler} editSaler={() => this.editSaler(saler)} removeSaler={() => this.openModalConfirmation(saler._id)} />
-              ))
+              this.props.salers.map((saler, index) => {
+                return (
+                  <Saler
+                    key={index}
+                    saler={saler}
+                    setFocusedSaler={(salerFocus) => {
+                      const salerF = {...this.state.salerFocus}
+                      salerF.type = 'show'
+                      salerF.title = 'Ver información'
+                      salerF.saler = saler
+                      this.setState({ salerFocus: salerF, showModalSaler: true })
+                    }}
+                    openModal={() => {
+                      const salerF = {...this.state.salerFocus}
+                      salerF.type = 'edit'
+                      salerF.title = 'Editar productor'
+                      salerF.saler = saler
+                      this.setState({ salerFocus: salerF, showModalSaler: true })
+                    }}
+                    removeSaler={() => this.openModalConfirmation(saler._id)}
+                  />
+                )
+              })
             }
             {
               this.props.salers.length === 0
@@ -249,6 +281,18 @@ class SalersList extends Component {
           title={'¿Segur@ que desea eliminar el productor?'}
           action={() => this.removeSaler(this.state.idToRemove)}
           close={() => this.setState({ showModalConfirmation: false })}
+        />
+
+        <ModalSaler
+          visible={this.state.showModalSaler}
+          {...this.state.salerFocus}
+          reject={() => this.setState({ showModalSaler: false })}
+          action={saler => this.editSaler(saler)}
+          setSalerName={name => {
+            const salerF = {...this.state.salerFocus}
+            salerF.saler.name = name
+            this.setState({ salerFocus: salerF })
+          }}
         />
 
       </div>

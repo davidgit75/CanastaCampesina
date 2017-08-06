@@ -1,5 +1,4 @@
 import { createStore, applyMiddleware } from 'redux'
-import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import reducer from './reducers'
 
@@ -11,6 +10,6 @@ const initStates = {
   loading: true
 }
 
-const middleware = applyMiddleware(thunk, createLogger())
+const middleware = applyMiddleware(thunk)
 
 export default createStore(reducer, initStates, middleware)
