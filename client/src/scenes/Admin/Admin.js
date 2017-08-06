@@ -23,7 +23,7 @@ const Admin = (props) => {
       colored
       toolbar={
         <Toolbar
-          title='Canasta Campesina'
+          title={`Canasta Campesina (usuario: ${props.user.username})`}
           actions={<Button raised secondary key='logoutButton' label='Salir' onClick={() => props.logout()} />}
         />
       }

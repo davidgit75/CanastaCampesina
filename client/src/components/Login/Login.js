@@ -1,18 +1,13 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import TextField from 'react-md/lib/TextFields'
 import Button from 'react-md/lib/Buttons/Button'
 import { login } from '../../api/auth'
 
 import './styles.css'
 
-class Login extends Component {
-  constructor() {
-    super()
-    this.state = {
-      username: '',
-      password: ''
-    }
+export default class Login extends Component {
+  constructor(props) {
+    super(props)
   }
 
   render() {
@@ -23,8 +18,8 @@ class Login extends Component {
           id="floatingAdmin"
           label="Administrador(a)"
           className="md-cell md-cell--12 md-cell--bottom"
-          value={this.state.username}
-          onChange={v => this.setState({ username: v })}
+          value={this.props.username}
+          onChange={v => this.props.setUsername(v)}
         />
 
         <TextField
@@ -33,8 +28,8 @@ class Login extends Component {
           label="Contraseña"
           className="md-cell md-cell--12 md-cell--bottom"
           type='password'
-          value={this.state.password}
-          onChange={v => this.setState({ password: v })}
+          value={this.props.password}
+          onChange={v => this.props.setPassword(v)}
         />
 
         <Button
@@ -42,22 +37,11 @@ class Login extends Component {
           primary
           label='Ingresar'
           className="md-cell md-cell--12 md-cell--bottom"
-          onClick={() => this.props.login(this.state)}
+          onClick={() => this.props.login({ username: this.props.username, password: this.props.password })}
         />
+
+        { this.props.error ? <div style={{ marginTop: 25, marginLeft: 100, fontSize: 20, color: '#FF0000' }}><b>Error de logueo</b></div> : null }
       </div>
     )
   }
 }
-
-const mapStateToProps = state => ({
-  admin: state.admin,
-  login: state.login
-})
-
-const mapDispatchToProps = dispatch => ({
-  login(credentials) {
-    return dispatch(login(credentials))
-  }
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)

@@ -2,6 +2,7 @@ const Admin = require('../../api/Admin/admin.model')
 const { stringEmpty, encrypt, decodeToken } = require('../../helpers')
 
 const midAuthAdmin = (req, res, next) => {
+  console.log('midAuthAdmin', req.headers);
   if (req.headers.authorization) {
     const token = req.headers.authorization.split(' ')[1]
     if (token) {

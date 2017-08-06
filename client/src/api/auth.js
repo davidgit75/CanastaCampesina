@@ -28,7 +28,7 @@ export const checkCredentials = () => {
 }
 
 export const login = credentials => {
-  return dispatch => {
+  /* return dispatch => {
     dispatch(setLoading(true))
     axios.post(ADMIN_AUTH, credentials)
       .then(data => {
@@ -44,5 +44,6 @@ export const login = credentials => {
         console.log(`ERROR => ${error}`)
         dispatch(setLoading(false))
       })
-  }
+  } */
+  return axios.post(ADMIN_AUTH, credentials)
 }

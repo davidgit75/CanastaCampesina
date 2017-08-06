@@ -11,6 +11,7 @@ const auth = (req, res) => {
     Admin.findOne(query)
       .then(admin => {
         if (admin) {
+          console.log('admin found', admin);
           const token = encodeToken(req.body)
           const adm = {
             _id: admin._id,
