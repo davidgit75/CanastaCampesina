@@ -2,12 +2,9 @@ const mongoose = require('mongoose')
 
 const schema = mongoose.Schema(
   {
-    client: { type: mongoose.Schema.Types.ObjectId, required: true },
-    products: [
-      product: { type: mongoose.Schema.Types.ObjectId, required: true },
-      quantity: { type: Number, required: true },
-    ],
-    finished: { type: Boolean, default: false }
+    client: { type: String, required: true },
+    salerId: { type: String, required: true },
+    product: { type: String, required: true } // _id of products on saler model
   },
   { versionKey: false }
 )
