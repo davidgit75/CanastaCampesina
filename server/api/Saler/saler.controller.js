@@ -30,7 +30,8 @@ const addProduct = (req, res) => {
             name: req.body.product.name,
             unitBase: req.body.product.unitBase,
             price: req.body.product.price,
-            quantity: req.body.product.quantity
+            quantity: req.body.product.quantity,
+            availabeQuantity: req.body.product.quantity,
           }
         }
       }

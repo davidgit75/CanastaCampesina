@@ -3,6 +3,17 @@ import Dialog from 'react-md/lib/Dialogs'
 import Button from 'react-md/lib/Buttons/Button'
 import TextField from 'react-md/lib/TextFields'
 import Chip from 'react-md/lib/Chips'
+import List from 'react-md/lib/Lists/List'
+import ListItem from 'react-md/lib/Lists/ListItem'
+import Divider from 'react-md/lib/Dividers'
+import Subheader from 'react-md/lib/Subheaders'
+import Avatar from 'react-md/lib/Avatars'
+import FontIcon from 'react-md/lib/FontIcons'
+import Toolbar from 'react-md/lib/Toolbars'
+import Card from 'react-md/lib/Cards/Card'
+
+const InfoIcon = () => <FontIcon>info</FontIcon>;
+const StarIcon = () => <FontIcon>star</FontIcon>;
 
 class ModalSaler extends Component {
   constructor(props) {
@@ -48,17 +59,57 @@ class ModalSaler extends Component {
     return actions
   }
 
+  describeProducts() {
+    if (this.state.saler) {
+      return this.state.saler.products.map((product, i) => (
+        <Card key={`${product}-${i}`} className="md-block-centered md-cell md-cell--6">
+          <List className="md-cell md-paper">
+            <Subheader primaryText={product.name} />
+            <ListItem
+              primaryText='Unidad'
+              secondaryText={product.unitBase}
+            />
+            <ListItem
+              primaryText='Precio'
+              secondaryText={`$CO ${product.price}`}
+            />
+            <ListItem
+              primaryText='Cantidad ofertada'
+              secondaryText={product.quantity}
+            />
+            <ListItem
+              primaryText='Vendidos'
+              secondaryText={product.sold > 0 ? product.sold : 'Sin ventas aún'}
+            />
+            <ListItem
+              primaryText='Disponibles'
+              secondaryText={product.availabeQuantity}
+            />
+          </List>
+        </Card>
+      ));
+    }
+  }
+
   render() {
+    const nav = <Button icon onClick={() => this.props.reject()}>close</Button>
     return (
       <Dialog
         id="modalModalActionSaler"
         visible={this.props.visible}
-        title={this.props.title}
         aria-labelledby="modalNewAdminDescription"
+        contentStyle={{ maxHeight: 300, overflowY: 'scroll' }}
         modal
         actions={this.getActions()}
+        fullPage
       >
-        <div className='md-grid'>
+        <Toolbar
+          colored
+          nav={nav}
+          title={this.props.title}
+          fixed
+        />
+        <div className='md-grid md-toolbar-relative'>
           <div className='md-cell md-cell--12'>
             <TextField
               fullWidth
@@ -84,6 +135,8 @@ class ModalSaler extends Component {
               : null
             }
           </div>
+
+          {this.describeProducts()}
         </div>
       </Dialog>
     )

@@ -7,6 +7,7 @@ const schemaProduct = mongoose.Schema(
     price : { type: Number, required: true },
     quantity : { type: Number, required: true },
     sold: { type: Number, required: true, default: 0 },
+    availabeQuantity: { type: Number, required: true },
     available : { type: Boolean, required: true, default: true },
   },
   { versionKey: false }
